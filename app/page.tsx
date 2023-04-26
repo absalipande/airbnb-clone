@@ -1,11 +1,10 @@
-import React from 'react';
 import Container from './components/Container';
 import ClientOnly from './components/ClientOnly';
 import EmptyState from './components/EmptyState';
+import ListingCard from './components/listings/ListingCard';
 
 import getListings, { IListingsParams } from './actions/getListings';
 import getCurrentUser from './actions/getCurrentUser';
-import ListingCard from './components/listings/ListingCard';
 
 interface HomeProps {
   searchParams: IListingsParams;
@@ -20,7 +19,7 @@ const Home = async ({ searchParams }: HomeProps) => {
       <ClientOnly>
         <EmptyState showReset />
       </ClientOnly>
-    )
+    );
   }
   return (
     <ClientOnly>
@@ -38,11 +37,11 @@ const Home = async ({ searchParams }: HomeProps) => {
         gap-8
         '
         >
-          {listings.map((listing) => (
-            <ListingCard 
-            currentUser={currentUser}
-            key={listing.id}
-            data={listing}
+          {listings.map((listing: any) => (
+            <ListingCard
+              currentUser={currentUser}
+              key={listing.id}
+              data={listing}
             />
           ))}
         </div>
