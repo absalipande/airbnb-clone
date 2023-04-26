@@ -6,9 +6,10 @@ interface IParams {
   authorId?: string;
 }
 
-export default async function getReservation(params: IParams) {
+export default async function getReservations(params: IParams) {
   try {
     const { listingId, userId, authorId } = params;
+
     const query: any = {};
 
     if (listingId) {
@@ -20,7 +21,7 @@ export default async function getReservation(params: IParams) {
     }
 
     if (authorId) {
-      query.authorId = authorId;
+      query.listing = { userId: authorId };
     }
 
     const reservations = await prisma.reservation.findMany({
@@ -33,7 +34,7 @@ export default async function getReservation(params: IParams) {
       },
     });
 
-    const SafeReservations = reservations.map((reservation) => ({
+    const safeReservations = reservations.map((reservation) => ({
       ...reservation,
       createdAt: reservation.createdAt.toISOString(),
       startDate: reservation.startDate.toISOString(),
@@ -44,7 +45,7 @@ export default async function getReservation(params: IParams) {
       },
     }));
 
-    return SafeReservations;
+    return safeReservations;
   } catch (error: any) {
     throw new Error(error);
   }
